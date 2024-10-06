@@ -1,0 +1,54 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+	Layout = "masterLayout.cshtml";
+	ViewBag.Title = Model?.Value("pageTitle") ?? null;
+
+	var selection = Umbraco.Content(Guid.Parse("8fcdb706-9c69-4257-9541-5a19d7d9a213"))
+    .ChildrenOfType("projectItemTemplate")
+    .Where(x => x.IsVisible());
+}
+
+@if(!string.IsNullOrEmpty(ViewBag.title))
+{
+	@await Html.PartialAsync("partials/static/breadcrumb.cshtml")
+}
+
+
+
+<section class="project">
+	<div class="container">
+		<div class="project-boxes">
+		@if (selection != null)
+		{
+			@foreach (var item in selection)
+			{
+				var image = item?.Value<IPublishedContent>("thumbnailImage")?.Url() ?? "";
+				var date = item?.Value<string>("pageDate") ?? "";
+				var quote = item?.Value<string>("pageQuote") ?? "";
+				var link = item?.Value<string>("pageLink") ?? "";
+
+				<div>
+					<div class="item">
+						<img src="@image" alt="@item!.Name()">
+						<div>
+							<div class="content">
+								<h4>@item.Name()</h4>
+								<p><i class="fa-solid fa-calendar-days"></i>@date</p>
+								<blockquote>@quote</blockquote>
+								<a href="@item!.Url()">@link <i class="fa-solid fa-arrow-right"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		}
+		</div>
+	</div>
+</section>
+
+@await Html.PartialAsync("partials/static/contactFooter")
+
+
+
+	

@@ -1,0 +1,15 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<AboutPage>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "masterLayout.cshtml";
+	ViewBag.Title =Model?.Value("pageTitle") ?? null; 
+}
+
+@if(!string.IsNullOrEmpty(ViewBag.title))
+{
+	@await Html.PartialAsync("partials/static/breadcrumb.cshtml")
+}
+
+@await Html.GetBlockGridHtmlAsync(Model!.Section)
+@await Html.PartialAsync("partials/static/contactFooter")

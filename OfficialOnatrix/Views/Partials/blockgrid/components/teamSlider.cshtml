@@ -1,0 +1,41 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+    var slides = Model.Content.Value<IEnumerable<Umbraco.Cms.Core.Models.Blocks.BlockListItem>>("slides");
+}
+
+<div class="image-slider">
+        <div class="slides">
+            @foreach(var item in slides)
+            {
+                var memberImage = item?.Content.Value<IPublishedContent>("memberImage")?.Url();
+                var memberName = item?.Content.Value<string>("memberName")?? "image slider item";
+                var memberLinkUrl = item?.Content.Value<string>("memberLinkUrl")?? null;
+                var memberRoles = item?.Content.Value<string>("memberRoles")?? null;
+                var linkIsExternal = item.Content.Value<bool>("linkIsExternal");
+
+                if(!string.IsNullOrEmpty(memberLinkUrl))
+                {
+                    if(linkIsExternal)
+                    {
+                        <a class="slide-item" href="@memberLinkUrl" target="_blank" title="@memberName"><img src="@memberImage" alt="@memberName"></a>
+                        
+                    }
+                    else
+                    {
+                        <a class="slide-item" href="@memberLinkUrl" title="@memberName"><img src="@memberImage" alt="@memberName"></a>
+                    }
+                }
+                else
+                {
+                    <div class="member-items">
+                        <span class="slide-image"><img src="@memberImage" alt="@memberName"></span>
+                        <p><strong>@memberName</strong></p>
+                        <p>@memberRoles</p>
+                    </div>
+                   
+                }
+            }
+        </div>
+</div>

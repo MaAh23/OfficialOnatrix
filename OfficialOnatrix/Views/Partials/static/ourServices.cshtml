@@ -1,0 +1,15 @@
+﻿
+@{
+	var selection = Umbraco.Content(Guid.Parse("3913f4f3-6f80-4474-ac40-ad744f636baf"))
+    .ChildrenOfType("serviceItemTemplate")
+    .Where(x => x.IsVisible());
+}
+<ul>
+	@foreach (var item in selection)
+	{
+		<li>
+			<a href="@item.Url()">@item.Name()</a>
+		</li>
+	}
+</ul>
+
